@@ -1,8 +1,9 @@
 import styles from './pratos.module.scss';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Routes, Route } from 'react-router-dom';
 import cardapio from 'data/cardapio.json';
 import TagsPrato from 'components/TagsPrato';
 import NotFound from 'pages/NotFound';
+import PaginaPadrao from 'components/PaginaPadrao';
 
 
 export default function Pratos() {
@@ -14,24 +15,30 @@ export default function Pratos() {
     return <NotFound />;
   }
   return (
-    <>
-      <button className={styles.voltar} onClick={()=>navigate(-1)}>
-        {'< voltar'}
-      </button>
-      <section className={styles.container}>
-        <h1 className={styles.tutulo}>
-          {prato.title}
-        </h1>
-        <div>
-          <img src={prato.photo} alt={prato.title} />
-        </div>
-        <div className={styles.conteudo}>
-          <p className={styles.conteudo__decricao}>
-            {prato.description}
-          </p>
-          <TagsPrato {...prato} />
-        </div>
-      </section>
-    </>
+    <Routes>
+      <Route path='*' element={<PaginaPadrao />}>
+        <Route index element={
+          <>
+            <button className={styles.voltar} onClick={() => navigate(-1)}>
+              {'< voltar'}
+            </button>
+            <section className={styles.container}>
+              <h1 className={styles.tutulo}>
+                {prato.title}
+              </h1>
+              <div>
+                <img src={prato.photo} alt={prato.title} />
+              </div>
+              <div className={styles.conteudo}>
+                <p className={styles.conteudo__decricao}>
+                  {prato.description}
+                </p>
+                <TagsPrato {...prato} />
+              </div>
+            </section>
+          </>
+        } />
+      </Route>
+    </Routes>
   );
 }
